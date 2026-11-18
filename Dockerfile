@@ -10,6 +10,9 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends --only-upgrade apache2 apache2-bin; \
     rm -rf /var/lib/apt/lists/*
 
+# Limita i processi Apache alla memoria del container (vedi commenti nel file).
+COPY apache-prefork.conf /etc/apache2/mods-available/mpm_prefork.conf
+
 RUN set -eux; \
     apt-get update; \
     apt-get install -y --no-install-recommends $PHPIZE_DEPS; \

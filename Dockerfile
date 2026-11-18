@@ -1,7 +1,14 @@
-# WordPress con Apache + PHP-FPM incluso + estensione phpredis (object cache veloce).
+# WordPress con Apache + mod_php + estensione phpredis (object cache veloce).
 # Tag: major WP 7 (minor automatiche) + PHP 8.5 + Apache.
 # Per riproducibilità totale pinna una minor esatta, es. wordpress:7.1.3-php8.5-apache
 FROM wordpress:7-php8.5-apache
+
+# Aggiornamenti di sicurezza di Apache da Debian (trixie-security), anche se
+# l'immagine ufficiale non è ancora stata ricostruita. Es. DSA-6620-1 → 2.4.71.
+RUN set -eux; \
+    apt-get update; \
+    apt-get install -y --no-install-recommends --only-upgrade apache2 apache2-bin; \
+    rm -rf /var/lib/apt/lists/*
 
 RUN set -eux; \
     apt-get update; \
